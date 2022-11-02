@@ -42,7 +42,7 @@ h1 {
 
 
 .to-dos {
-    margin-top: 40px;  
+    margin-top: 40px; 
 }
 
 ul {
@@ -58,7 +58,7 @@ img {
     vertical-align: middle;
 }
 
-    li, button .delete {
+    li, button .buttons {
     display:flex;
     justify-content: space-between;
 }
@@ -71,14 +71,22 @@ img {
     border-radius: 20px;
     text-align: left;
     padding: 10px;
-    cursor: pointer;
 }
 
 
-.delete {
+.buttons {
     border: none;
     background-color: transparent;
     cursor: pointer;
     padding: 0%;
-    
+    cursor: pointer;
 }
+
+h2 {
+    font-family: 'Pacifico', cursive;
+    font-size: 30px;
+    font-weight: 100;
+    margin-bottom: 0%;
+    margin-right: 55px;
+}
+
