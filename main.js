@@ -7,11 +7,16 @@ var listOfDos = document.createElement('ul');
     toDoContainer.appendChild(listOfDos); 
    
 var tehty = [];
+var kerta = 0;
+let indeksi = 0;
 
 addToDoButton.addEventListener('click', function() {
 
     var paragraph = document.createElement('li');
     paragraph.classList.add("task");
+
+    paragraph.setAttribute('id', "task"+kerta);
+    
     var deleteTask = document.createElement('button');
     deleteTask.classList.add("delete");
     paragraph.innerText = inputField.value;
@@ -27,7 +32,19 @@ addToDoButton.addEventListener('click', function() {
 
         var teksti = JSON.stringify(tehty);
         tehty.push(paragraph.innerText);
-        var varasto = localStorage.setItem("bucket", tehty);//Tähän localStorage
+        var varasto = localStorage.setItem("bucket", tehty);
+
+        let näyte = document.getElementById('task'+kerta).innerText;
+
+        let arvo = JSON.stringify(näyte);
+        console.log(arvo);
+        kerta = kerta+1
+
+
+        var varasto = localStorage.setItem(indeksi, arvo);
+
+        console.log(indeksi);
+        indeksi = indeksi+1;//Tähän localStorage
 
         inputField.style = "#inputField";
         inputField.value = "";
@@ -39,12 +56,13 @@ addToDoButton.addEventListener('click', function() {
         paragraph.style.opacity = "0.5";
     })
 
-    paragraph.addEventListener('dblclick', function() {
+    deleteTask.addEventListener('click', function() {
         listOfDos.removeChild(paragraph);
         var tekstitys = JSON.stringify(listOfDos);
-        var varasto = localStorage.setItem("bucket", tekstitys);
-    
-
+        var varasto = localStorage.setItem("trashCan", paragraph.innerText);
+        var osuma = paragraph.innerText;
+        console.log(paragraph.innerText);
+        tehty.push(osuma);
     }); 
 
 /* 
