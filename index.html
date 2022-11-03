@@ -13,9 +13,11 @@
         <input id="inputField" type="text" placeholder="There's so many things to do..."><button id="addToDo">+</button>
         <div class="to-dos" id="toDoContainer">
         </div>
-        <h2>Deleted Items</h2>
-        <div class="to-dos-delted" id="toDoDelContainer">
-             
+        <select name="selector" id="filterToDos">
+            <option value="all">All tasks</option>
+            <option value="done">Completed</option>
+            <option value="uncompleted">Uncompleted</option>
+            <option value="deleted">Deleted</option>
     </div>
     <script src="main.js"></script>
 </body>
