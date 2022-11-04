@@ -1,169 +1,82 @@
+// haeaan ID:n perusteella tiedot html tiedostosta 
 let addToDoButton = document.getElementById('addToDo');
 let toDoContainer = document.getElementById('toDoContainer');
 let inputField = document.getElementById('inputField');
-inputField.maxLength = "40";
 let filterTasks = document.getElementById('filterToDos');
 
-
-/* let indeksi = 0;
-let kerta = 0;
-let tehty = [];
- */
+// Luodaan html lista ja lisätään se toDoContainerin lapsielementiksi
 var listOfDos = document.createElement('ul');
-    listOfDos.classList.add("tasklist");
-    toDoContainer.appendChild(listOfDos);
+toDoContainer.appendChild(listOfDos);
+// maksimipituus syötettävälle tekstille
+inputField.maxLength = '40';
 
+// luodaan kuuntelija syöttönappulalle
 addToDoButton.addEventListener('click', function() {
 
-
+    //luodaan listaelementti ja annetaan sille luokka
     var paragraph = document.createElement('li');
-    paragraph.classList.add("task");
-
-    /* paragraph.setAttribute('id', "task"+kerta); */
-
+    paragraph.classList.add('task');
+    
+    // tekstikentän teksti asetetaan listaelementtiin
     paragraph.innerText = inputField.value;
-
+    
+    // luodaan "valmis" ja "poista" napeille oma "säiliö" ja luokka
     var buttons = document.createElement('div');
-    buttons.classList.add("buttons")
-
+    buttons.classList.add('buttons');
+    
+    // luodaan nappit ja niille luokat
     var doneTask = document.createElement('button');
     doneTask.classList.add('buttons');
     doneTask.innerHTML = '<img src="done.png"/>';
 
     var deleteTask = document.createElement('button');
-    deleteTask.classList.add("buttons");
+    deleteTask.classList.add('buttons');
     deleteTask.innerHTML = '<img src="roskis.png"/>';
 
-
-    var pituus = paragraph.innerText.length;
-    if (pituus < 2) {
-        window.alert("Use more than one letter to express yourself <3");
-        inputField.style.border = "1px solid red";
+    // tarkistetaan syötetyn tekstin pituus
+    var len = paragraph.innerText.length;
+    // jos teksti on lyhyempi kuin 2 kirjainta, annetaan varoitus ja tekstikentän reuna muuttuu punaiseksi
+    if (len < 2) {
+        window.alert('Use more than one letter to express yourself <3');
+        inputField.style.border = '1px solid red';
     } else {
+        // jos teksti hyväksytään, luodaan lapsielementtejä joilla saadaan lisätyt tehtävät ja napit näkyville
         listOfDos.appendChild(paragraph);
         paragraph.appendChild(buttons);
         buttons.appendChild(doneTask);
         buttons.appendChild(deleteTask);
 
+        // kutsutaan funktiota localSave joka tallentaa syötetyn tekstin localstorageen
         localSave(inputField.value);
         
-        /* let näyte = document.getElementById('task'+kerta).innerText;
-
-        let arvo = JSON.stringify(näyte);
-        
-        kerta = kerta+1
-
-        var varasto = localStorage.setItem(indeksi, arvo);
-
-        tehty.push(arvo);
-
-        console.log(indeksi);
-
-        indeksi = indeksi+1; */
-
-        inputField.style = "#inputField";
-        inputField.value = "";
+        // tyhjennetään tekstikenttä ja palautetaan tyyli takaisin normaaliksi
+        inputField.style = '#inputField';
+        inputField.value = '';
         
     }
-    
+        // luodaan kuutelija ja tyyli "tehty"-napille, joka merkkaa tehtävän tehdyksi  
     doneTask.addEventListener('click', function() {
-        paragraph.style.textDecoration = "line-through";
-        paragraph.style.opacity = "0.5";
-        paragraph.classList.add("done"); 
+        paragraph.style.textDecoration = 'line-through';
+        paragraph.style.opacity = '0.5';
+        paragraph.classList.add('done'); 
     })
-
+        // luodaan kuuntelija "poista"-napille, joka poistaa luodun tehtävän listasta
     deleteTask.addEventListener('click', function() {
-
-        /* localStorage.setItem("bucket", paragraph.innerText);
-
-        localStorage.setItem("trashCan", paragraph.innerText);
-        */
         listOfDos.removeChild(paragraph);
 
-        /*päivitys()
-        function päivitys() {
-        
-        laskuri = 0
-            
-        let varmistus = localStorage.getItem("bucket");
-         */
-        /* varmistus = varmistus.substring(1, varmistus.length-1) */
-        /* varmistus = '"'+varmistus+'"'
- 
-
-        for (let i = 0; i < indeksi; i++) {
-               
-            console.log(i)
-            let tarkistus = localStorage.getItem(i);
-
-            if (varmistus != tarkistus) {              
-                console.log(varmistus)
-                console.log(tarkistus)
-                localStorage.setItem(i, tarkistus)    
-            } else {
-                console.log(varmistus)
-                console.log(tarkistus)
-                localStorage.removeItem(i);
-            }  
-        } */
-    
-        /* localStorage.removeItem('trashCan');
-        localStorage.removeItem('bucket');
-        kerta = 0
-        
-        console.log('Nyt uusinta')
-        uusinta()        
-
-        function uusinta() {
-
-            let täyttö = [];
-            lista = document.getElementById('toDoContainer');
-        
-            while (lista.firstChild) {
-                lista.removeChild(lista.firstChild);
-                console.log(lista.firstChild);
-        
-                }
-        
-            var listOfDos = document.createElement('ul');
-            toDoContainer.appendChild(listOfDos); 
-
-
-            for (let i = 0; i < indeksi; i++) {
-        
-                let nappaus = localStorage.getItem(i);
-                    
-        
-                if (nappaus == null) {
-                        console.log('Tyhjä')             
-                } else {
-                    täyttö.push(nappaus)
- 
-                    var paragraph = document.createElement('li');
-                    paragraph.setAttribute('id', "task"+kerta);
-
-                    nappaus = nappaus.substring(1, nappaus.length-1)
-                    paragraph.innerText = nappaus;
-
-                    paragraph.appendChild(deleteTask);
-                    listOfDos.appendChild(paragraph);
-                    kerta = kerta+1
-                }
-            }
-        }*/        
     }) 
-
+        // luodaan kuuntelija suodattimelle, josta voi valita minkä statuksen tehtäviä haluaa nähdä
     filterTasks.addEventListener('click', function(taskFilter){
         const todos = listOfDos.childNodes;
     
         todos.forEach(function(todo){
             switch(taskFilter.target.value) {
            
-                case "all":
+                case 'all':
                     todo.style.display = 'flex';
                     break;
            
-                case "done":
+                case 'done':
                     if(todo.classList.contains('done')) {
                         todo.style.display = 'flex';
                     } else {
@@ -171,60 +84,57 @@ addToDoButton.addEventListener('click', function() {
                     }
                     break;
             
-                case "uncompleted":
+                case 'uncompleted':
                     if(!todo.classList.contains('done')) {
                         todo.style.display = 'flex';
                     } else {
                         todo.style.display = 'none';
                     }
                     break;                  
-            }
-                
+            }                
         })
-    
     })
-    
+    // tallennetaan local Storageen
     function localSave(localTask) {
         let localTasks;
-        if (localStorage.getItem("localTasks") === null) {
+        //tarkistetaan, onko local storage tyhjä, jos on niin luodaan lista
+        if (localStorage.getItem('localTasks') === null) {
             localTasks = [];
+        // jos ei, miin haetaan siellä olevat tiedot    
         } else {
             localTasks = JSON.parse(localStorage.getItem("localTasks"));
         }
 
         localTasks.push(localTask);
-        localStorage.setItem("localTasks", JSON.stringify(localTasks));
+        localStorage.setItem('localTasks', JSON.stringify(localTasks));
     }
 
    
 
 });
-
+// Otetaan tavarat localStragesta
 document.addEventListener('DOMContentLoaded', function() {
     let localTasks;
-    if (localStorage.getItem("localTasks") === null) {
+    if (localStorage.getItem('localTasks') === null) {
         localTasks = [];
     } else {
-        localTasks = JSON.parse(localStorage.getItem("localTasks"));
+        localTasks = JSON.parse(localStorage.getItem('localTasks'));
     }
-
-        var listOfDos = document.createElement('ul');
-        toDoContainer.appendChild(listOfDos);
         
         localTasks.forEach(function(todo){
         var paragraph = document.createElement('li');
-        paragraph.classList.add("task");
+        paragraph.classList.add('task');
         paragraph.innerText = todo;
     
         var buttons = document.createElement('div');
-        buttons.classList.add("buttons")
+        buttons.classList.add('buttons');
     
         var doneTask = document.createElement('button');
         doneTask.classList.add('buttons');
         doneTask.innerHTML = '<img src="done.png"/>';
     
         var deleteTask = document.createElement('button');
-        deleteTask.classList.add("buttons");
+        deleteTask.classList.add('buttons');
         deleteTask.innerHTML = '<img src="roskis.png"/>';
 
         listOfDos.appendChild(paragraph);
@@ -233,9 +143,9 @@ document.addEventListener('DOMContentLoaded', function() {
         buttons.appendChild(deleteTask);
 
         doneTask.addEventListener('click', function() {
-            paragraph.style.textDecoration = "line-through";
-            paragraph.style.opacity = "0.5";
-            paragraph.classList.add("done"); 
+            paragraph.style.textDecoration = 'line-through';
+            paragraph.style.opacity = '0.5';
+            paragraph.classList.add('done'); 
         })
     
         deleteTask.addEventListener('click', function() {
@@ -248,11 +158,11 @@ document.addEventListener('DOMContentLoaded', function() {
             todos.forEach(function(todo){
                 switch(taskFilter.target.value) {
                
-                    case "all":
+                    case 'all':
                         todo.style.display = 'flex';
                         break;
                
-                    case "done":
+                    case 'done':
                         if(todo.classList.contains('done')) {
                             todo.style.display = 'flex';
                         } else {
@@ -260,7 +170,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         }
                         break;
                 
-                    case "uncompleted":
+                    case 'uncompleted':
                         if(!todo.classList.contains('done')) {
                             todo.style.display = 'flex';
                         } else {
@@ -274,5 +184,4 @@ document.addEventListener('DOMContentLoaded', function() {
         })
     })
 })
-
 
