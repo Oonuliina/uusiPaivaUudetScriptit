@@ -1,3 +1,4 @@
+// funkitioiden järjestely kesken :)
 // haeaan ID:n perusteella tiedot html tiedostosta 
 let addToDoButton = document.getElementById('addToDo');
 let inputField = document.getElementById('inputField');
